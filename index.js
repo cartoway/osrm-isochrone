@@ -55,7 +55,46 @@ module.exports = function (center, time, options, done) {
         if ('approach' in options) tableOptions.approach = options.approach;
         if ('exclude' in options) tableOptions.exclude = options.exclude;
 
-        osrm.table(tableOptions, function(err, res) {
+        osrm.distance_table = function(tableOptions, callback) {
+            var result = {
+                durations: [[]],
+                destinations: []
+            };
+            var i = 0;
+            tableOptions.coordinates.forEach(function(coo, idx) {
+                var routeOptions = {
+                    coordinates: [
+                        [
+                            center[0], center[1]
+                        ],
+                        [
+                            coo[0], coo[1]
+                        ]
+                    ],
+                    alternateRoute: false,
+                    printInstructions: false
+                };
+                if ('approach' in tableOptions) routeOptions.approach = tableOptions.approach;
+                if ('exclude' in tableOptions) routeOptions.exclude = tableOptions.exclude;
+                osrm.route(routeOptions, function(err, res) {
+                    i++;
+                    if (err) {
+                        result.durations[0][idx] = null;
+                        result.destinations[idx] = {location: coo};
+                    }
+                    else {
+                        result.durations[0][idx] = res.routes.length > 0 ? res.routes[0].distance : null;
+                        result.destinations[idx] = {location: res.waypoints[1].location};
+                    }
+                    if (i == tableOptions.coordinates.length) {
+                        callback(null, result);
+                    }
+                });
+            });
+        };
+        osrm.hacked_table = options.distance ? osrm.distance_table : osrm.table;
+
+        osrm.hacked_table(tableOptions, function(err, res) {
             if (err) {
                 console.log(err);
                 return done(err);
@@ -66,11 +105,11 @@ module.exports = function (center, time, options, done) {
                     point(res.destinations[idx].location),
                     unit
                 );
-                if (distanceMapped < sizeCellGrid) {
+                if (time !== null && distanceMapped < sizeCellGrid) {
                     var dest = point(res.destinations[idx].location);
-                        dest.properties = {};
-                        dest.properties.eta = time;
-                        destinations.features.push(dest);
+                    dest.properties = {};
+                    dest.properties.eta = time;
+                    destinations.features.push(dest);
                 }
             });
             var result = self.draw(destinations);
