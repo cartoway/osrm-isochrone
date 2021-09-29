@@ -85,4 +85,3 @@ isochrone.draw = function(destinations) {
 }
 isochrone.getIsochrone();
 ```
-

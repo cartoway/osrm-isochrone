@@ -27,7 +27,7 @@ module.exports = function (center, time, options, done) {
         // this will account for a driver going a bit above the max safe speed
         var centerPt = point(center);
         var spokes = featureCollection([]);
-        var length = (time/3600) * options.maxspeed;
+        var length = options.distance ? time/1000 : (time/3600) * options.maxspeed;
         spokes.features.push(destination(centerPt, length, 180, unit));
         spokes.features.push(destination(centerPt, length, 0, unit));
         spokes.features.push(destination(centerPt, length, 90, unit));
