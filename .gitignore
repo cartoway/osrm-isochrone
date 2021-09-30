@@ -19,9 +19,8 @@ coverage
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
-test/data/berlin-latest*
-test/data/car.lua
-test/data/lib/access.lua
+test/data/
+!test/data/Makefile
 stxxl.errlog
 
 # Dependency directory
@@ -31,3 +30,4 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+.DS_Store
