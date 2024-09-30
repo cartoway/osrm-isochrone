@@ -21,7 +21,7 @@ module.exports = function (center, time, options, done) {
         };
     }
     this.getIsochrone = function() {
-        var osrm = options.network instanceof OSRM ? options.network : new OSRM(options.network);
+        var osrm = options.network; // instanceof OSRM ? options.network : new OSRM(options.network);
         // compute bboxGrid
         // bboxGrid should go out 1.4 miles in each direction for each minute
         // this will account for a driver going a bit above the max safe speed
