@@ -27,12 +27,14 @@
     "tape": "^3.0.3"
   },
   "dependencies": {
-    "osrm": "^5.26.0",
     "@turf/helpers": "^3.5.2",
     "@turf/isolines": "^3.5.2",
     "@turf/destination": "^3.5.2",
     "@turf/bbox": "^3.5.2",
     "@turf/distance": "^3.5.2",
     "@turf/point-grid": "^3.5.2"
+  },
+  "peerDependencies": {
+    "@project-osrm/osrm": "^6.0.0"
   }
 }
