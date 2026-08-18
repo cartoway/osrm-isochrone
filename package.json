@@ -35,6 +35,6 @@
     "@turf/point-grid": "^3.5.2"
   },
   "peerDependencies": {
-    "@project-osrm/osrm": "^6.0.0"
+    "@project-osrm/osrm": "^26.6.0"
   }
 }
